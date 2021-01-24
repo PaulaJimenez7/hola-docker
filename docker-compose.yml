@@ -1,12 +1,18 @@
 version: "3.0"
 services:
   web:
-    image: hola-docker
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nginx:latest
     ports:
-      - 8080:80
-
-      
-
+      - "8080:80"
+    volumes:
+      - ./pagina-web:/usr/share/nginx/html
+      - ./site.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php
+  php:
+    image: php:7-fpm
+    volumes:
+      - ./pagina-web:/usr/share/nginx/html
+volumes:
+  web:
+  php:
